@@ -48,9 +48,12 @@ receivers:
 inhibit_rules:
 {{ alertmanager_inhibit_rules | to_nice_yaml(indent=2) }}
 {% endif %}
+{# TODO: alertmanager_child_routes is left here for compatibility reasons. It should be removed after March 2020 #}
 route:
   {{ alertmanager_route | to_nice_yaml(indent=2) | indent(2, False) }}
 {% if alertmanager_child_routes | length %}
+{% if alertmanager_route.routes | length == 0 %}
   routes:
+{% endif %}
   {{ alertmanager_child_routes | to_nice_yaml(indent=2) | indent(2, False) }}
 {% endif %}
